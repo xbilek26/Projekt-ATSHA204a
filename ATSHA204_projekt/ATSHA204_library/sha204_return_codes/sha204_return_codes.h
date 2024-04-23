@@ -12,7 +12,7 @@
 #include <stddef.h>
 
 #define SHA204_SUCCESS              ((uint8_t)  0x00) //!< Function succeeded.
-#define SHA204_CHECKMAC_FAILED		((uint8_t)  0xD1) //!< response status byte indicates CheckMac failure
+#define SHA204_CHECKMAC_FAILED      ((uint8_t)  0xD1) //!< response status byte indicates CheckMac failure
 #define SHA204_PARSE_ERROR          ((uint8_t)  0xD2) //!< response status byte indicates parsing error
 #define SHA204_CMD_FAIL             ((uint8_t)  0xD3) //!< response status byte indicates command execution error
 #define SHA204_STATUS_CRC           ((uint8_t)  0xD4) //!< response status byte indicates CRC error
