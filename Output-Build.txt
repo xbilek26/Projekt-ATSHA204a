@@ -1,0 +1,23 @@
+﻿------ Build started: Project: ATSHA204_projekt, Configuration: Debug AVR ------
+Build started.
+Project "ATSHA204_projekt.cproj" (default targets):
+Target "PreBuildEvent" skipped, due to false condition; ('$(PreBuildEvent)'!='') was evaluated as (''!='').
+Target "CoreBuild" in file "C:\Apps\Atmel\Studio\7.0\Vs\Compiler.targets" from project "C:\Users\Student\Downloads\SSY_projekt-main\ATSHA204_projekt\ATSHA204_projekt.cproj" (target "Build" depends on it):
+	Task "RunCompilerTask"
+		Shell Utils Path C:\Apps\Atmel\Studio\7.0\shellUtils
+		C:\Apps\Atmel\Studio\7.0\shellUtils\make.exe all --jobs --output-sync 
+		make: Nothing to be done for 'all'.
+	Done executing task "RunCompilerTask".
+	Task "RunOutputFileVerifyTask"
+				Program Memory Usage 	:	3210 bytes   1.2 % Full
+				Data Memory Usage 		:	341 bytes   1.0 % Full
+				Warning: Memory Usage estimation may not be accurate if there are sections other than .text sections in ELF file
+	Done executing task "RunOutputFileVerifyTask".
+Done building target "CoreBuild" in project "ATSHA204_projekt.cproj".
+Target "PostBuildEvent" skipped, due to false condition; ('$(PostBuildEvent)' != '') was evaluated as ('' != '').
+Target "Build" in file "C:\Apps\Atmel\Studio\7.0\Vs\Avr.common.targets" from project "C:\Users\Student\Downloads\SSY_projekt-main\ATSHA204_projekt\ATSHA204_projekt.cproj" (entry point):
+Done building target "Build" in project "ATSHA204_projekt.cproj".
+Done building project "ATSHA204_projekt.cproj".
+
+Build succeeded.
+========== Build: 1 succeeded or up-to-date, 0 failed, 0 skipped ==========
