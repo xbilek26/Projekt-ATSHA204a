@@ -48,7 +48,7 @@ uint8_t sha204p_wakeup(void)
 		return SHA204_COMM_FAIL;
 
 	// To send eight zero bits it takes 10E6 / I2C clock * 8 us.
-	_delay_ms(SHA204_WAKEUP_PULSE_WIDTH - (uint8_t) (1000000.0 / 10.0 / I2C_CLOCK * 8.0)); // DOD?LAT DELAY (https://github.com/thiseldo/cryptoauth-arduino/blob/master/src/common-atmel/timer_utilities.c#L112)
+	_delay_ms(SHA204_WAKEUP_PULSE_WIDTH - (uint8_t) (1000000.0 / 10.0 / I2C_CLOCK * 8.0));
 
 	// We have to send at least one byte between an I2C Start and an I2C Stop.
 	(void) i2c_send_bytes(1, &dummy_byte);
