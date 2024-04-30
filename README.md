@@ -199,6 +199,17 @@ printf("\n\r");
 
 V tejto časti kódu je generované náhodné číslo pomocou kryptografického obvodu ATSHA204.
 
+- Premenné `command`, `response_random` a ukazovateľ `random_number` sú definované na uchovanie príkazu a odpovede z kryptografického obvodu ATSHA204.
+
+- Funkcia `sha204m_random()` sa používa na generovanie náhodného čísla. Parametre funkcie zahŕňajú príkaz, odpoveď a špecifikáciu aktualizácie semienka pre generovanie náhodného čísla.
+
+- Návratový kód funkcie sa ukladá do premennej `rand_gen_status`.
+
+- Ak je `rand_gen_status` rovný `SHA204_SUCCESS`, vypíše sa vygenerované náhodné číslo vo formáte hexadecimálnej reprezentácie.
+
+- Kryptografický obvod ATSHA204 je prevedený do spánkového režimu pomocou funkcie `sha204e_sleep()`.
+
+- V prípade, že `rand_gen_status` nie je `SHA204_SUCCESS`, vypíše sa chybová hláška s konkrétnym návratovým kódom.
 ```c
 // Definícia premenných pre príkaz, odpoveď a ukazovateľ na náhodné číslo
 uint8_t command[SHA204_CMD_SIZE_MAX];
@@ -228,6 +239,35 @@ else
 }
 
 printf("\n\r");
+```
+
+### Čítanie konfiguračnej zóny
+
+V tejto časti kódu je vykonané čítanie konfiguračnej zóny z kryptografického obvodu ATSHA204.
+
+```c
+// Definícia premenných pre údaje konfiguračnej zóny, identifikátor zariadenia a stav čítania konfiguračnej zóny
+uint8_t config_data[88];
+uint8_t device_id = 0xC8;
+uint8_t read_config_status = sha204e_read_config_zone(device_id, config_data);
+
+// Výpis hlavičky pre konfiguračnú zónu
+printf("Config zone:\n\r");
+
+// Kontrola úspešnosti čítania konfiguračnej zóny
+if (read_config_status == SHA204_SUCCESS)
+{
+    // Ak bolo čítanie úspešné, vypíšu sa údaje konfiguračnej zóny
+    for (int i = 0; i < 88; i++)
+    {
+        printf("Byte %d: 0x%02X\n\r", i, config_data[i]);
+    }
+}
+else
+{
+    // Ak čítanie zlyhalo, vypíše sa chybová hláška s návratovým kódom
+    printf("Error reading config zone! %d", read_config_status);
+}
 ```
 
 ### `board_init()`
