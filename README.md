@@ -43,8 +43,6 @@ Tieto knižnice sú základné pre rozhranie s hardvérom na platforme AVR, spra
 - `<stdlib.h>`: Zahrnuje funkcie zahŕňajúce alokáciu pamäte, kontrolu procesov, konverzie a iné.
 - `<string.h>`: Poskytuje funkcie na spracovanie reťazcov.
 
-Tieto štandardné knižnice sú použité na správu dát reťazcov, pamäti a formátovaného vstupu/výstupu, ktoré sú nevyhnutné pre operácie zobrazené v demonštrácii, ako je zobrazovanie výstupov na termináli.
-
 ### Vlastné knižnice pre ATSHA204a
 
 - `sha204_comm.h`: Zaoberá sa nižšie úrovňovými komunikačnými príkazmi s ATSHA204a.
@@ -75,7 +73,7 @@ Inicializuje hardvérové konfigurácie a nastavenia UART. Táto funkcia je nevy
 - Demonštruje odosielanie príkazu a prijímanie odpovede.
 - Vykonáva rôzne kryptografické operácie, ako je čítanie sériového čísla, generovanie náhodného čísla, výpočet CRC a ďalšie.
 
-Hlavná funkcia orchesteruje tok operácií, demonštruje schopnosti čipu ATSHA204a štruktúrovaným spôsobom. Ukazuje, ako integrovať ATSHA204a do reálneho aplikačného scenára.
+Hlavná funkcia orchesteruje tok operácií, demonštruje schopnosti čipu ATSHA204a štruktúrovaným spôsobom.
 
 ## Kryptografické funkcie
 
