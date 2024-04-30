@@ -59,7 +59,7 @@ Tieto knižnice sú súčasťou softvérovej knižnice ATSHA204a poskytovanej v�
 
 # Kľúčové funkcie
 
-## Inicializácia sériovej komunikácie
+### Inicializácia sériovej komunikácie
 
 Táto časť kódu inicializuje sériovú komunikáciu na zvolenej rýchlosti a nastavuje stdout na sériový port.
 
@@ -85,7 +85,7 @@ void board_init()
     sei();
 }
 ```
-## main()
+### main()
 - Inicializuje dosku volaním `board_init()`.
   
 ```c
@@ -108,7 +108,7 @@ int main(void)
     uint8_t wakeup_status = sha204c_wakeup(response);
 ```
 
-## Kontrola stavu prebudenia kryptografického obvodu
+### Kontrola stavu prebudenia kryptografického obvodu
 - Po inicializácii komunikácie s ATSHA204 sa pošle príkaz na jeho prebudenie.
 - Návratový kód tohto príkazu sa uloží do premennej `wakeup_status`.
 - Ak je `wakeup_status` rôzny od `SHA204_SUCCESS`, znamená to, že prebudenie zlyhalo.
@@ -116,7 +116,7 @@ int main(void)
 - Ak je `wakeup_status` rovnaký ako `SHA204_SUCCESS`, znamená to, že prebudenie bolo úspešné.
 - V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
 
-## Odeslanie príkazu kryptografickému obvodu
+### Odeslanie príkazu kryptografickému obvodu
 V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela kryptografickému obvodu ATSHA204. Príkaz je reprezentovaný polom bajtov.
 
 Funkcia `sha204p_send_command()` sa používa na odoslanie príkazu kryptografickému obvodu ATSHA204. Parametre funkcie sú veľkosť príkazu a samotný príkaz uložený v premennej `my_command`.
@@ -221,6 +221,9 @@ else
 
 printf("\n\r");
 ```
+
+### CRC výpočet
+Funkcia `sha204c_calculate_crc` iteruje cez všetky byty vstupných údajov a aplikuje na ne polynomiálne delenie. Výsledkom je dvojbajtové CRC, ktoré je uložené v poli crc. Následne je možné vypočítané CRC vypísať pomocou printf funkcie.
 
 ### Čítanie konfiguračnej zóny
 
