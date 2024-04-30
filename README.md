@@ -2,24 +2,30 @@
 
 # Úvod
 
-Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický obvod ATSHA204a. Táto knižnica poskytne rozhranie pre základné operácie s obvodom, ako je ukladanie kľúčov pre AES128, identifikácia zariadenia, využitie jedinečného identifikátora (ID), hashovanie a generovanie náhodných čísel.
+Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický obvod ATSHA204a. Táto knižnica poskytuje rozhranie pre základné operácie s obvodom, ako je ukladanie kľúčov pre AES128, identifikácia zariadenia, využitie jedinečného identifikátora (ID), hashovanie a generovanie náhodných čísel.
 
-## Funkcie knižnice budú zahŕňať:
+## Funkcie knižnice:
 
 - **Ukladanie kľúčov pre AES128**: Implementácia funkcií na ukladanie a čítanie kľúčov pre šifrovanie a dešifrovanie pomocou algoritmu AES128.
-- **Identifikácia zariadenia**: Rozšírené funkcie na identifikáciu zariadenia založené nielen na jednoduchom identifikátore, ale aj na inteligentnej analýze ďalších charakteristík zariadenia.
+- **Identifikácia zariadenia**: Rozšírené funkcie na identifikáciu zariadenia založené nielen na jednoduchom identifikátore.
 - **Jedinečný identifikátor (ID)**: Využitie jedinečného identifikátora zariadenia na rôzne účely, ako je napríklad priradenie sieťových adries alebo autentifikácia.
 - **Hashovanie**: Implementácia funkcií na vytváranie hashov z dát získaných zo zariadenia, čo môže byť užitočné pri overovaní autenticity dát.
-- **Generovanie náhodných čísel**: Funkcie na generovanie náhodných čísel pomocou kryptografického obvodu ATSHA204a, ktoré môžu byť využité v rôznych kryptografických operáciách.
+- **Generovanie náhodných čísel**: Funkcie na generovanie náhodných čísel pomocou kryptografického obvodu ATSHA204a, ktoré môžu byť využité pri rôznych kryptografických operáciách.
 
-Tieto funkcie umožnia integráciu kryptografického obvodu ATSHA204a do rôznych aplikácií a systémov, kde je potrebné zabezpečiť dôvernosť, autenticitu a integritu dát.
+| Funkcia                          | Popis                                                                                         |
+|----------------------------------|-----------------------------------------------------------------------------------------------|
+| Ukladanie kľúčov pre AES128      | Implementácia funkcií na ukladanie a čítanie kľúčov pre šifrovanie a dešifrovanie pomocou algoritmu AES128. |
+| Identifikácia zariadenia         | Rozšírené funkcie na identifikáciu zariadenia založené nielen na jednoduchom identifikátore. |
+| Jedinečný identifikátor (ID)     | Využitie jedinečného identifikátora zariadenia na rôzne účely, ako je napríklad priradenie sieťových adries alebo autentifikácia. |
+| Hashovanie                       | Implementácia funkcií na vytváranie hashov z dát získaných zo zariadenia, čo môže byť užitočné pri overovaní autenticity dát. |
+| Generovanie náhodných čísel     | Funkcie na generovanie náhodných čísel pomocou kryptografického obvodu ATSHA204a, ktoré môžu byť využité pri rôznych kryptografických operáciách. |
 
 
 Podrobné špecifikácie a technické údaje vychádzajú z [Datasheet ATSHA204a](https://ww1.microchip.com/downloads/en/DeviceDoc/ATSHA204A-Data-Sheet-40002025A.pdf).
 
 ## Prehľad
 
-Hlavný program `main.c` demonštruje rôzne kryptografické operácie umožnené čipom ATSHA204a, ako je bezpečné ukladanie kľúčov, generovanie náhodných čísel a kryptografické výpočty. Kód inicializuje hardvér dosky, konfiguruje komunikačné nastavenia a vykonáva sériovú komunikáciu s ATSHA204a.
+Hlavný program `main.c` demonštruje funkcie umožnené čipom ATSHA204a, ako je bezpečné ukladanie kľúčov, generovanie náhodných čísel a kryptografické výpočty. Kód inicializuje hardvér dosky, konfiguruje komunikačné nastavenia a vykonáva sériovú komunikáciu s ATSHA204a.
 
 ## Použité knižnice
 
@@ -45,13 +51,11 @@ Tieto knižnice sú základné pre rozhranie s hardvérom na platforme AVR, spra
 - `sha204_i2c.h`: Riadi špecifiká komunikácie I2C s ATSHA204a.
 - `sha204_return_codes.h`: Definuje návratové kódy pre operácie ATSHA204a.
 
-Tieto knižnice sú súčasťou softvérovej knižnice ATSHA204a poskytovanej výrobcom čipu. Abstrahujú zložitosť surových kryptografických operácií a komunikácie s čipom.
+Tieto knižnice sú súčasťou softvérovej knižnice ATSHA204a poskytovanej výrobcom čipu.
 
-### Knihovna UART
+### Knižnica UART
 
 - `uart/uart.h`: Riadi sériovú komunikáciu, ktorá je nevyhnutná na odosielanie a prijímanie údajov z čipu ATSHA204a a na účely ladenia.
-
-Táto vlastná knižnica je kľúčová pre nastavenie a operácie sériovej komunikácie, ktorá je hlavnou metódou rozhrania s ATSHA204a v tejto demonštrácii.
 
 ## Kľúčové funkcie
 
@@ -81,10 +85,9 @@ void board_init()
     sei();
 }
 ```
-# `main()`
+# main()
 
 - Inicializuje dosku volaním `board_init()`.
-- Odosiela príkazy na vyčistenie obrazovky a nastavenie atribútov textu pre lepšiu čitateľnosť.
   
 ```c
 int main(void)
@@ -96,12 +99,12 @@ int main(void)
     UART_SendChar(27);                // escape
     UART_SendString("[2J");           // clear and home
     UART_SendChar(27);                // escape
-    UART_SendString("[0;32;40m");     // barva pozadi a textu
+    UART_SendString("[0;32;40m");     // farba pozadia a textu
 
-    // Inicializácia kryptografického obvodu ATSHA204
+    // Inicializácia ATSHA204
     sha204p_init();
 
-    // Deklarácia a inicializácia premenných pre odpoveď z kryptografického obvodu
+    // Deklarácia a inicializácia premenných pre odpoveď
     uint8_t response[SHA204_RSP_SIZE_MAX];
     uint8_t wakeup_status = sha204c_wakeup(response);
 ```
