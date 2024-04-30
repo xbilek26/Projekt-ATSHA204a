@@ -117,7 +117,7 @@ int main(void)
 - V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
 
 ## Odeslanie príkazu kryptografickému obvodu
-V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela kryptografickému obvodu ATSHA204. Príkaz je reprezentovaný polem bajtov.
+V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela kryptografickému obvodu ATSHA204. Príkaz je reprezentovaný polom bajtov.
 
 Funkcia `sha204p_send_command()` sa používa na odoslanie príkazu kryptografickému obvodu ATSHA204. Parametre funkcie sú veľkosť príkazu a samotný príkaz uložený v premennej `my_command`.
 
@@ -149,7 +149,8 @@ else
 
 ### Čítanie sériového čísla
 
-V tejto časti kódu je vykonané čítanie sériového čísla z obvodu ATSHA204 pomocou I2C komunikácie, ktorá je implementovaná vo vytvorenej knižnici `sha204_i2c`.  
+V tejto časti kódu je vykonané čítanie sériového čísla z obvodu ATSHA204 pomocou I2C komunikácie, ktorá je implementovaná vo vytvorenej knižnici `sha204_i2c`. Po inicializácii a zobudení obvodu z režimu spánku je možné posielať príkazy a prijímať odpovede zo zariadenia. Komunikácia prebieha cez definované funkcie, ktoré zabezpečujú odosielanie adries, správ a riadenie stavov zariadenia.
+ 
 
 ```c
 // Definícia premenných pre buffer a sériové číslo
@@ -182,17 +183,14 @@ printf("\n\r");
 
 V tejto časti kódu je generované náhodné číslo pomocou kryptografického obvodu ATSHA204.
 
-- Premenné `command`, `response_random` a ukazovateľ `random_number` sú definované na uchovanie príkazu a odpovede z kryptografického obvodu ATSHA204.
+- Premenné `command`, `response_random` a ukazovateľ `random_number` sú definované na uchovanie príkazu a odpovede z ATSHA204. 
 
-- Funkcia `sha204m_random()` sa používa na generovanie náhodného čísla. Parametre funkcie zahŕňajú príkaz, odpoveď.
+- Funkcia `sha204m_random` slúži na generovanie náhodných čísel pomocou kryptografického obvodu SHA204a. Pri jej použití sa poskytne buffer pre odoslanie (`tx_buffer`) a buffer pre prijatie (`rx_buffer`) dát, spolu s módom generovania náhodných čísel, určeným parametrom `mode`. 
 
-- Návratový kód funkcie sa ukladaný do premennej `rand_gen_status`.
+Funkcia najskôr overí, či nie sú parametre `tx_buffer` alebo `rx_buffer` nulové ukazovatele a či je hodnota `mode` v rozsahu povolených módov. Následne nastaví príslušné hodnoty v bufferoch `tx_buffer` a `rx_buffer` pre vykonanie príkazu na generovanie náhodných čísel. 
 
-- Ak je `rand_gen_status` rovný `SHA204_SUCCESS`, vypíše sa vygenerované náhodné číslo vo formáte hexadecimálnej reprezentácie.
+Potom odosiela príkaz a prijíma odpoveď od obvodu SHA204a. Ak sa operácia úspešne vykoná, vráti návratový kód `SHA204_SUCCESS`, inak vráti chybový kód `SHA204_BAD_PARAM`.
 
-- Kryptografický obvod ATSHA204 je prevedený do spánkového režimu pomocou funkcie `sha204e_sleep()`.
-
-- V prípade, že `rand_gen_status` nie je `SHA204_SUCCESS`, vypíše sa chybová hláška s konkrétnym návratovým kódom.
 ```c
 // Definícia premenných pre príkaz, odpoveď a ukazovateľ na náhodné číslo
 uint8_t command[SHA204_CMD_SIZE_MAX];
