@@ -1,6 +1,6 @@
 # Projekt ATSHA204a
 
-# Úvod
+## Úvod
 
 Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický obvod ATSHA204a. Táto knižnica poskytuje rozhranie pre základné operácie s obvodom, ako je ukladanie kľúčov pre AES128, identifikácia zariadenia, využitie jedinečného identifikátora (ID), hashovanie a generovanie náhodných čísel.
 
@@ -11,14 +11,6 @@ Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický
 - **Jedinečný identifikátor (ID)**: Využitie jedinečného identifikátora zariadenia na rôzne účely, ako je napríklad priradenie sieťových adries alebo autentifikácia.
 - **Hashovanie**: Implementácia funkcií na vytváranie hashov z dát získaných zo zariadenia, čo môže byť užitočné pri overovaní autenticity dát.
 - **Generovanie náhodných čísel**: Funkcie na generovanie náhodných čísel pomocou kryptografického obvodu ATSHA204a, ktoré môžu byť využité pri rôznych kryptografických operáciách.
-
-| Funkcia                          | Popis                                                                                         |
-|----------------------------------|-----------------------------------------------------------------------------------------------|
-| Ukladanie kľúčov pre AES128      | Implementácia funkcií na ukladanie a čítanie kľúčov pre šifrovanie a dešifrovanie pomocou algoritmu AES128. |
-| Identifikácia zariadenia         | Rozšírené funkcie na identifikáciu zariadenia založené nielen na jednoduchom identifikátore. |
-| Jedinečný identifikátor (ID)     | Využitie jedinečného identifikátora zariadenia na rôzne účely, ako je napríklad priradenie sieťových adries alebo autentifikácia. |
-| Hashovanie                       | Implementácia funkcií na vytváranie hashov z dát získaných zo zariadenia, čo môže byť užitočné pri overovaní autenticity dát. |
-| Generovanie náhodných čísel     | Funkcie na generovanie náhodných čísel pomocou kryptografického obvodu ATSHA204a, ktoré môžu byť využité pri rôznych kryptografických operáciách. |
 
 
 Podrobné špecifikácie a technické údaje vychádzajú z [Datasheet ATSHA204a](https://ww1.microchip.com/downloads/en/DeviceDoc/ATSHA204A-Data-Sheet-40002025A.pdf).
@@ -41,7 +33,7 @@ Tieto knižnice sú súčasťou softvérovej knižnice ATSHA204a poskytovanej v�
 
 - `uart/uart.h`: Riadi sériovú komunikáciu, ktorá je nevyhnutná na odosielanie a prijímanie údajov z čipu ATSHA204a a na účely ladenia.
 
-# Kľúčové funkcie
+## Kľúčové funkcie
 
 ### Inicializácia sériovej komunikácie
 
