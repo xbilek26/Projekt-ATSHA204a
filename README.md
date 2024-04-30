@@ -6,6 +6,8 @@ Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický
 
 ## Vrstvy kryptografického obvodu ATSHA204a:
 
+![alt text](layers.png)
+
 ### Komunikačná vrstva (Communication Layer):
 Táto vrstva sa zaoberá komunikáciou medzi mikrokontrolérom a kryptografickým obvodom ATSHA204a. Implementuje nízkoúrovňové komunikačné protokoly ako I2C a SPI.
 Funkcie tejto vrstvy zahŕňajú inicializáciu komunikačného rozhrania, odosielanie a prijímanie dát a riadenie komunikačných kanálov.
