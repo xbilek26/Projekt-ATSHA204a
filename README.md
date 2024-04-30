@@ -149,7 +149,7 @@ else
 
 ### Čítanie sériového čísla
 
-V tejto časti kódu je vykonané čítanie sériového čísla z kryptografického obvodu ATSHA204.
+V tejto časti kódu je vykonané čítanie sériového čísla z obvodu ATSHA204 pomocou I2C komunikácie, ktorá je implementovaná vo vytvorenej knižnici `sha204_i2c`.  
 
 ```c
 // Definícia premenných pre buffer a sériové číslo
@@ -184,9 +184,9 @@ V tejto časti kódu je generované náhodné číslo pomocou kryptografického 
 
 - Premenné `command`, `response_random` a ukazovateľ `random_number` sú definované na uchovanie príkazu a odpovede z kryptografického obvodu ATSHA204.
 
-- Funkcia `sha204m_random()` sa používa na generovanie náhodného čísla. Parametre funkcie zahŕňajú príkaz, odpoveď a špecifikáciu aktualizácie semienka pre generovanie náhodného čísla.
+- Funkcia `sha204m_random()` sa používa na generovanie náhodného čísla. Parametre funkcie zahŕňajú príkaz, odpoveď.
 
-- Návratový kód funkcie sa ukladá do premennej `rand_gen_status`.
+- Návratový kód funkcie sa ukladaný do premennej `rand_gen_status`.
 
 - Ak je `rand_gen_status` rovný `SHA204_SUCCESS`, vypíše sa vygenerované náhodné číslo vo formáte hexadecimálnej reprezentácie.
 
