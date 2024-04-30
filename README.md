@@ -94,10 +94,6 @@ int main(void)
 
     // Inicializácia ATSHA204
     sha204p_init();
-
-    // Deklarácia a inicializácia premenných pre odpoveď
-    uint8_t response[SHA204_RSP_SIZE_MAX];
-    uint8_t wakeup_status = sha204c_wakeup(response);
 ```
 
 ### Kontrola stavu prebudenia kryptografického obvodu
