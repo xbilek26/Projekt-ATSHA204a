@@ -1,25 +1,6 @@
 # Projekt ATSHA204a
 
-# Features of ATSHA204a
-
-Náš projekt využíva zabezpečený kryptografický prvok ATSHA204a, ktorý poskytuje pokročilé funkcie pre bezpečnú autentifikáciu a šifrovanie v zabudovaných systémoch. Nižšie sú podrobne opísané kľúčové funkcie, ktoré zahrňujeme vo vývoji našich zariadení.
-
-Tento dokument je užitočný ako zdroj informácií pre vývojové tímy alebo ako technická dokumentácia pre zainteresované strany v projekte.
-
-| Funkcia                                     | Popis                                                                                                                                                  |
-|---------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Zabezpečené hardvérové úložisko kľúčov**  | Poskytuje bezpečné hardvérové úložisko pre kryptografické kľúče, chrániace pred neoprávneným prístupom a únikom dát.                                    |
-| **Autentifikácia**                          | Podporuje bezpečné symetrické autentifikačné operácie medzi hostiteľom a klientom.                                                                     |
-| **SHA-256 Hashovací Algoritmus**            | Implementuje SHA-256 algoritmus s možnosťami MAC a HMAC pre bezpečné hashovanie správ.                                                                 |
-| **Dĺžka a úložisko kľúčov**                  | Umožňuje použitie 256-bitových kľúčov a poskytuje úložisko pre až 16 kľúčov.                                                                            |
-| **Unikátne sériové číslo**                   | Každé zariadenie má zaručené unikátne 72-bitové sériové číslo pre zlepšené možnosti sledovania a autentifikácie.                                       |
-| **Generátor náhodných čísel (RNG)**         | Obsahuje interný generátor náhodných čísel pre bezpečné kryptografické operácie.                                                                       |
-| **EEPROM**                                  | Ponúka 4.5 kb EEPROM pre uloženie kľúčov a dát, a 512-bit OTP pamäť pre fixné informácie.                                                              |
-| **Viacnásobné I/O možnosti**                | Inkluduje UART-kompatibilné vysokorýchlostné jedno-drôtové rozhranie a 1 MHz I2C rozhranie.                                                            |
-| **Rozsah napájacích a komunikačných napätí**| Pracuje v rozsahu napájacích napätí 2.0V do 5.5V a komunikačných napätí 1.8V do 5.5V.                                                                  |
-| **Energeticky úsporný režim**               | Ponúka nízky spánkový prúd (<150 nA), zvyšujúci energetickú efektívnosť zariadenia.                                                                    |
-| **Bezpečné sťahovanie a bootovanie**        | Zabezpečuje kontrolu ekosystému, bezpečnosť správ a ochranu proti klonovaniu pri spustení a aktualizácii zariadenia.                                   |
-| **Dostupnosť v rôznych baleniach**          | Dostupné v baleniach ako 8-vývodový SOIC, 8-vývodový TSSOP, 3-vývodový SOT23, 8-políčkový UDFN a 3-vývodový CONTACT, poskytujúci flexibilitu v dizajne. |
+Náš projekt využíva zabezpečený kryptografický prvok ATSHA204a, ktorý poskytuje pokročilé funkcie pre bezpečnú autentifikáciu a šifrovanie v zabudovaných systémoch. Nižšie sú podrobne opísané kľúčové funkcie, ktoré sú zahrnuté v hlavnom súbore.
 
 Podrobné špecifikácie a technické údaje vychádzajú z [Datasheet ATSHA204a](https://ww1.microchip.com/downloads/en/DeviceDoc/ATSHA204A-Data-Sheet-40002025A.pdf).
 
@@ -245,6 +226,12 @@ printf("\n\r");
 
 V tejto časti kódu je vykonané čítanie konfiguračnej zóny z kryptografického obvodu ATSHA204.
 
+- Premenné `config_data`, `device_id` a `read_config_status` sú definované na uchovanie údajov konfiguračnej zóny, identifikátoru zariadenia a stavu čítania konfiguračnej zóny.
+- Funkcia `sha204e_read_config_zone()` sa používa na čítanie konfiguračnej zóny z kryptografického obvodu ATSHA204. Parametre funkcie zahŕňajú identifikátor zariadenia a pole pre ukladanie údajov konfiguračnej zóny.
+- Návratový kód funkcie sa ukladá do premennej `read_config_status`.
+- Ak je `read_config_status` rovný `SHA204_SUCCESS`, vypíšu sa údaje konfiguračnej zóny vo formáte bajtov.
+- V prípade, že `read_config_status` nie je `SHA204_SUCCESS`, vypíše sa chybová hláška s konkrétnym návratovým kódom.
+
 ```c
 // Definícia premenných pre údaje konfiguračnej zóny, identifikátor zariadenia a stav čítania konfiguračnej zóny
 uint8_t config_data[88];
@@ -270,28 +257,70 @@ else
 }
 ```
 
-### `board_init()`
+### Zápis dát
 
-Inicializuje hardvérové konfigurácie a nastavenia UART. Táto funkcia je nevyhnutná pre nastavenie potrebných hardvérových rozhraní a zabezpečenie pripravenosti mikrokontroléra na komunikáciu s ATSHA204a.
+- V tejto časti kódu sú definované premenné pre buffer na odoslanie (`write_tx_buffer`), buffer na prijatie (`write_rx_buffer`), zónu zápisu (`write_zone`), adresu zápisu (`write_address`) a MAC (`mac`).
+- Funkcia `sha204m_write()` sa používa na zápis dát do kryptografického obvodu ATSHA204. Parametre funkcie zahŕňajú buffery na odoslanie a prijatie, zónu zápisu, adresu zápisu, náhodné číslo a MAC.
+- Návratový kód funkcie `sha204m_write()` sa ukladá do premennej `write_data_status`.
+- Ak je `write_data_status` rovný `SHA204_SUCCESS`, vypíše sa správa o úspechu zápisu dát.
+- V opačnom prípade, ak zápis dát zlyhal, vypíše sa chybová hláška s konkrétnym návratovým kódom.
+- Ďalej je realizované čítanie dát z kryptografického obvodu ATSHA204 pomocou funkcie `sha204m_read()`. Parametre funkcie zahŕňajú buffery na odoslanie a prijatie, zónu čítania a adresu čítania.
+- Návratový kód funkcie `sha204m_read()` sa ukladá do premennej `read_data_status`.
+- Ak je `read_data_status` rovný `SHA204_SUCCESS`, vypíšu sa prečítané dáta vo formáte hexadecimálnej reprezentácie.
+- V opačnom prípade, ak čítanie dát zlyhalo, vypíše sa chybová hláška s konkrétnym návratovým kódom.
 
-### `main()`
 
-- Inicializuje dosku volaním `board_init()`.
-- Odosiela príkazy na vyčistenie obrazovky a nastavenie atribútov textu pre lepšiu čitateľnosť.
-- Prebúdza čip ATSHA204a a kontroluje jeho stav.
-- Demonštruje odosielanie príkazu a prijímanie odpovede.
-- Vykonáva rôzne kryptografické operácie, ako je čítanie sériového čísla, generovanie náhodného čísla, výpočet CRC a ďalšie.
+```c
+// Definícia premenných pre buffer na odoslanie, buffer na prijatie, zónu zápisu, adresu zápisu a MAC
+uint8_t write_tx_buffer[SHA204_COUNT_IDX + SHA204_ZONE_ACCESS_32 +
+	WRITE_MAC_SIZE + SHA204_CRC_SIZE];
+uint8_t write_rx_buffer[WRITE_RSP_SIZE];
+uint8_t write_zone = SHA204_ZONE_DATA;
+uint16_t write_address = 0x0000;
+uint8_t mac[WRITE_MAC_SIZE] = { 0 };
 
-Hlavná funkcia orchesteruje tok operácií, demonštruje schopnosti čipu ATSHA204a štruktúrovaným spôsobom.
+// Zápis dát do kryptografického obvodu ATSHA204
+uint8_t write_data_status =
+	sha204m_write(write_tx_buffer, write_rx_buffer, write_zone, write_address,
+		random_number, mac);
 
-## Kryptografické funkcie
+// Kontrola úspešnosti zápisu dát
+if (write_data_status == SHA204_SUCCESS)
+{
+    // Ak bol zápis úspešný, vypíše sa správa o úspechu
+    printf("Success writing data!");
+}
+else
+{
+    // Ak zápis zlyhal, vypíše sa chybová hláška s návratovým kódom
+    printf("Error writing data zone! %d\n\r", write_data_status);
+}
 
-- **Generovanie náhodných čísel:** Funkcia `sha204m_random()` generuje kryptograficky bezpečné náhodné čísla, ktoré môžu byť použité pre rôzne bezpečnostné aplikácie.
-- **Čítanie sériového čísla:** Funkcia `sha204e_read_serial_number()` umožňuje čítanie jedinečného sériového čísla čipu, ktoré môže byť použité na autentifikáciu zariadenia.
-- **Výpočet CRC:** Funkcia `sha204c_calculate_crc()` vypočíta kontrolný súčet pre overenie integrity údajov.
+// *********************Čítanie dát *********************
 
-Tieto funkcie sú nevyhnutné pre zabezpečenie integrity a autenticity v komunikačných a kryptografických procesoch.
+// Definícia premenných pre buffer na odoslanie, buffer na prijatie, zónu čítania a adresu čítania
+uint8_t read_tx_buffer[5];
+uint8_t read_rx_buffer[READ_32_RSP_SIZE];
+uint8_t read_zone = SHA204_ZONE_DATA;
+uint16_t read_address = 0x0000;
 
-## Záver
+// Čítanie dát z kryptografického obvodu ATSHA204
+uint8_t read_data_status =
+	sha204m_read(read_tx_buffer, read_rx_buffer, read_zone, read_address);
 
-Táto dokumentácia poskytuje vysokoúrovňový prehľad zdrojového súboru `main.c` pre demonštráciu ATSHA204a. Každá knižnica a funkcia je využívaná na predvedenie komplexného prístupu k používaniu kryptografických funkcií v zabudovaných systémoch.
+// Kontrola úspešnosti čítania dát
+if (read_data_status == SHA204_SUCCESS)
+{
+    // Ak bolo čítanie úspešné, vypíšu sa prečítané dáta
+    for (int i = 0; i < READ_32_RSP_SIZE; i++)
+        printf("Byte %d: 0x%02X\n", i, read_rx_buffer[i]);
+}
+else
+{
+    // Ak čítanie zlyhalo, vypíše sa chybová hláška s návratovým kódom
+    printf("Error reading data zone! %d\n\r", read_data_status);
+}
+
+return 0;
+```
+
