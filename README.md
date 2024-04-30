@@ -4,6 +4,20 @@
 
 Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický obvod ATSHA204a. Táto knižnica poskytuje rozhranie pre základné operácie s obvodom, ako je ukladanie kľúčov pre AES128, identifikácia zariadenia, využitie jedinečného identifikátora (ID), hashovanie a generovanie náhodných čísel.
 
+## Vrstvy kryptografického obvodu ATSHA204a:
+
+### Komunikačná vrstva (Communication Layer):
+Táto vrstva sa zaoberá komunikáciou medzi mikrokontrolérom a kryptografickým obvodom ATSHA204a. Implementuje nízkoúrovňové komunikačné protokoly ako I2C a SPI.
+Funkcie tejto vrstvy zahŕňajú inicializáciu komunikačného rozhrania, odosielanie a prijímanie dát a riadenie komunikačných kanálov.
+
+### Marshalling vrstva (Marshalling Layer):
+Marshalling je proces konvertovania štruktúrovaných dát na formát, ktorý je vhodný na prenos cez komunikačné rozhranie. V prípade ATSHA204a to znamená prevod príkazov a odpovedí medzi mikrokontrolérom a obvodom na sériu bajtov, ktoré sú posielané cez I2C alebo SPI.
+Táto vrstva zabezpečuje, že správy posielané medzi mikrokontrolérom a ATSHA204a sú vo formáte pochopiteľnom pre oba zariadenia.
+
+### Aplikačná vrstva (Application Layer):
+Aplikačná vrstva predstavuje samotnú knižnicu a jej funkcie, ktoré sú zamerané na konkrétne úlohy ako ukladanie kľúčov, identifikáciu zariadenia, generovanie náhodných čísel atď.
+Tu sa nachádzajú vyššie úrovne API pre používateľa, ktoré poskytujú pohodlné rozhranie pre prácu s ATSHA204a bez potreby zaoberať sa detailmi komunikácie a formátovania správ.
+
 ## Funkcie knižnice:
 
 - **Ukladanie kľúčov pre AES128**: Implementácia funkcií na ukladanie a čítanie kľúčov pre šifrovanie a dešifrovanie pomocou algoritmu AES128.
