@@ -185,7 +185,7 @@ V tejto časti kódu je generované náhodné číslo pomocou kryptografického 
 
 - Premenné `command`, `response_random` a ukazovateľ `random_number` sú definované na uchovanie príkazu a odpovede z ATSHA204. 
 
-- Funkcia `sha204m_random` slúži na generovanie náhodných čísel pomocou kryptografického obvodu SHA204a. Pri jej použití sa poskytne buffer pre odoslanie (`tx_buffer`) a buffer pre prijatie (`rx_buffer`) dát, spolu s módom generovania náhodných čísel, určeným parametrom `mode`. 
+- Funkcia `sha204m_random` implementovaná v knižnici `sha204_comm_marshalling` slúži na generovanie náhodných čísel pomocou kryptografického obvodu SHA204a. Pri jej použití sa poskytne buffer pre odoslanie (`tx_buffer`) a buffer pre prijatie (`rx_buffer`) dát, spolu s módom generovania náhodných čísel, určeným parametrom `mode`. 
 
 Funkcia najskôr overí, či nie sú parametre `tx_buffer` alebo `rx_buffer` nulové ukazovatele a či je hodnota `mode` v rozsahu povolených módov. Následne nastaví príslušné hodnoty v bufferoch `tx_buffer` a `rx_buffer` pre vykonanie príkazu na generovanie náhodných čísel. 
 
