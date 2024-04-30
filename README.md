@@ -27,23 +27,7 @@ Podrobné špecifikácie a technické údaje vychádzajú z [Datasheet ATSHA204a
 
 Hlavný program `main.c` demonštruje funkcie umožnené čipom ATSHA204a, ako je bezpečné ukladanie kľúčov, generovanie náhodných čísel a kryptografické výpočty. Kód inicializuje hardvér dosky, konfiguruje komunikačné nastavenia a vykonáva sériovú komunikáciu s ATSHA204a.
 
-## Použité knižnice
-
-### Štandardné knižnice AVR
-
-- `<avr/io.h>`: Používané pre funkcie hardvérového vstupu/výstupu.
-- `<avr/interrupt.h>`: Používané pre správu hardvérových prerušení.
-- `<util/delay.h>`: Poskytuje funkcie oneskorenia.
-
-Tieto knižnice sú základné pre rozhranie s hardvérom na platforme AVR, spracovanie prerušení a zavedenie potrebných oneskorení pre časovanie a synchronizáciu s čipom ATSHA204a.
-
-### Štandardné knižnice C
-
-- `<stdio.h>`: Používané pre operácie vstupu a výstupu.
-- `<stdlib.h>`: Zahrnuje funkcie zahŕňajúce alokáciu pamäte, kontrolu procesov, konverzie a iné.
-- `<string.h>`: Poskytuje funkcie na spracovanie reťazcov.
-
-### Vlastné knižnice pre ATSHA204a
+## Vlastné knižnice pre ATSHA204a
 
 - `sha204_comm.h`: Zaoberá sa nižšie úrovňovými komunikačnými príkazmi s ATSHA204a.
 - `sha204_comm_marshaling.h`: Uľahčuje maršálovanie príkazov a odpovedí medzi hostiteľom a ATSHA204a.
@@ -117,9 +101,9 @@ int main(void)
 - V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
 
 ### Odeslanie príkazu kryptografickému obvodu
-V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela kryptografickému obvodu ATSHA204. Príkaz je reprezentovaný polom bajtov.
+V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela ATSHA204. Príkaz je reprezentovaný polom bajtov.
 
-Funkcia `sha204p_send_command()` sa používa na odoslanie príkazu kryptografickému obvodu ATSHA204. Parametre funkcie sú veľkosť príkazu a samotný príkaz uložený v premennej `my_command`.
+Funkcia `sha204p_send_command()` sa používa na odoslanie príkazu ATSHA204. Parametre funkcie sú veľkosť príkazu a samotný príkaz uložený v premennej `my_command`.
 
 Návratový kód tejto funkcie sa uloží do premennej `send_status`.
 
@@ -151,7 +135,6 @@ else
 
 V tejto časti kódu je vykonané čítanie sériového čísla z obvodu ATSHA204 pomocou I2C komunikácie, ktorá je implementovaná vo vytvorenej knižnici `sha204_i2c`. Po inicializácii a zobudení obvodu z režimu spánku je možné posielať príkazy a prijímať odpovede zo zariadenia. Komunikácia prebieha cez definované funkcie, ktoré zabezpečujú odosielanie adries, správ a riadenie stavov zariadenia.
  
-
 ```c
 // Definícia premenných pre buffer a sériové číslo
 uint8_t tx_buffer[10];
@@ -185,7 +168,7 @@ V tejto časti kódu je generované náhodné číslo pomocou kryptografického 
 
 - Premenné `command`, `response_random` a ukazovateľ `random_number` sú definované na uchovanie príkazu a odpovede z ATSHA204. 
 
-- Funkcia `sha204m_random` implementovaná v knižnici `sha204_comm_marshalling` slúži na generovanie náhodných čísel pomocou kryptografického obvodu SHA204a. Pri jej použití sa poskytne buffer pre odoslanie (`tx_buffer`) a buffer pre prijatie (`rx_buffer`) dát, spolu s módom generovania náhodných čísel, určeným parametrom `mode`. 
+- Funkcia `sha204m_random` implementovaná v knižnici `sha204_comm_marshalling` slúži na generovanie náhodných čísel pomocou SHA204a. Pri jej použití sa poskytne buffer pre odoslanie (`tx_buffer`) a buffer pre prijatie (`rx_buffer`) dát, spolu s módom generovania náhodných čísel, určeným parametrom `mode`. 
 
 Funkcia najskôr overí, či nie sú parametre `tx_buffer` alebo `rx_buffer` nulové ukazovatele a či je hodnota `mode` v rozsahu povolených módov. Následne nastaví príslušné hodnoty v bufferoch `tx_buffer` a `rx_buffer` pre vykonanie príkazu na generovanie náhodných čísel. 
 
@@ -227,10 +210,10 @@ Funkcia `sha204c_calculate_crc` iteruje cez všetky byty vstupných údajov a ap
 
 ### Čítanie konfiguračnej zóny
 
-V tejto časti kódu je vykonané čítanie konfiguračnej zóny z kryptografického obvodu ATSHA204.
+V tejto časti kódu je vykonané čítanie konfiguračnej zóny z ATSHA204.
 
 - Premenné `config_data`, `device_id` a `read_config_status` sú definované na uchovanie údajov konfiguračnej zóny, identifikátoru zariadenia a stavu čítania konfiguračnej zóny.
-- Funkcia `sha204e_read_config_zone()` sa používa na čítanie konfiguračnej zóny z kryptografického obvodu ATSHA204. Parametre funkcie zahŕňajú identifikátor zariadenia a pole pre ukladanie údajov konfiguračnej zóny.
+- Funkcia `sha204e_read_config_zone()` sa používa na čítanie konfiguračnej zóny z ATSHA204. Parametre funkcie zahŕňajú identifikátor zariadenia a pole pre ukladanie údajov konfiguračnej zóny.
 - Návratový kód funkcie sa ukladá do premennej `read_config_status`.
 - Ak je `read_config_status` rovný `SHA204_SUCCESS`, vypíšu sa údaje konfiguračnej zóny vo formáte bajtov.
 - V prípade, že `read_config_status` nie je `SHA204_SUCCESS`, vypíše sa chybová hláška s konkrétnym návratovým kódom.
@@ -260,7 +243,7 @@ else
 }
 ```
 
-### Zápis dát
+### R/W dát
 
 - V tejto časti kódu sú definované premenné pre buffer na odoslanie (`write_tx_buffer`), buffer na prijatie (`write_rx_buffer`), zónu zápisu (`write_zone`), adresu zápisu (`write_address`) a MAC (`mac`).
 - Funkcia `sha204m_write()` sa používa na zápis dát do kryptografického obvodu ATSHA204. Parametre funkcie zahŕňajú buffery na odoslanie a prijatie, zónu zápisu, adresu zápisu, náhodné číslo a MAC.
