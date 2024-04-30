@@ -193,6 +193,42 @@ else
 }
 
 printf("\n\r");
+```
+
+### Generovanie náhodného čísla
+
+V tejto časti kódu je generované náhodné číslo pomocou kryptografického obvodu ATSHA204.
+
+```c
+// Definícia premenných pre príkaz, odpoveď a ukazovateľ na náhodné číslo
+uint8_t command[SHA204_CMD_SIZE_MAX];
+uint8_t response_random[RANDOM_RSP_SIZE];
+uint8_t *random_number = &response_random[SHA204_BUFFER_POS_DATA];
+
+// Generovanie náhodného čísla pomocou kryptografického obvodu ATSHA204
+volatile uint8_t rand_gen_status = sha204m_random(command, response_random, RANDOM_NO_SEED_UPDATE);
+
+// Kontrola úspešnosti generovania náhodného čísla
+if (rand_gen_status == SHA204_SUCCESS)
+{
+    // Ak bolo generovanie úspešné, vypíše sa náhodné číslo
+    printf("Random number generated successfully: ");
+    for (int i = 0; i < RANDOM_RSP_SIZE - SHA204_BUFFER_POS_DATA; i++)
+    {
+        printf("%02X ", random_number[i]);
+    }
+
+    // Prevedenie kryptografického obvodu ATSHA204 do spánkového režimu
+    sha204e_sleep();
+}
+else
+{
+    // Ak generovanie zlyhalo, vypíše sa chybová hláška s návratovým kódom
+    printf("Error generating random number! %d", rand_gen_status);
+}
+
+printf("\n\r");
+```
 
 ### `board_init()`
 
