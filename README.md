@@ -112,6 +112,19 @@ int main(void)
     uint8_t wakeup_status = sha204c_wakeup(response);
 ```
 
+## Kontrola stavu prebudenia kryptografického obvodu
+
+```c
+// Kontrola stavu prebudenia kryptografického obvodu
+if (wakeup_status != SHA204_SUCCESS)
+{
+    printf("Error: SHA204 wakeup failed! Return code: %d\n\r", wakeup_status);
+}
+else
+{
+    printf("SHA204 device woken up successfully!\n\r");
+}
+
 ### `board_init()`
 
 Inicializuje hardvérové konfigurácie a nastavenia UART. Táto funkcia je nevyhnutná pre nastavenie potrebných hardvérových rozhraní a zabezpečenie pripravenosti mikrokontroléra na komunikáciu s ATSHA204a.
