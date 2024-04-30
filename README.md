@@ -4,54 +4,6 @@
 
 Náš projekt využíva zabezpečený kryptografický prvok ATSHA204a, ktorý poskytuje pokročilé funkcie pre bezpečnú autentifikáciu a šifrovanie v zabudovaných systémoch. Nižšie sú podrobne opísané kľúčové funkcie, ktoré zahrňujeme vo vývoji našich zariadení.
 
-## Zabezpečené Hardvérové Úložisko Kľúčov
-
-- ATSHA204a poskytuje zabezpečené úložisko pre kryptografické kľúče, založené na hardvérovej báze, chrániace pred neoprávneným prístupom a únikom informácií.
-
-## Autentifikácia
-
-- Podporuje bezpečné symetrické autentifikačné operácie medzi hostiteľom a klientom, zaručujúc bezpečnú komunikáciu medzi zariadeniami.
-
-## SHA-256 Hashovací Algoritmus
-
-- Implementuje vynikajúci hashovací algoritmus SHA-256, ktorý poskytuje možnosti pre výpočet správy autentifikačného kódu (MAC) a hash-bazovaného správy autentifikačného kódu (HMAC).
-
-## Dĺžka Kľúča a Úložisko
-
-- Poskytuje špičkovú dĺžku kľúča 256-bitov a úložisko pre až 16 kľúčov, umožňujúc robustné zabezpečenie pre rôzne aplikácie.
-
-## Unikátne Sériové Číslo
-
-- Každé zariadenie má zaručené unikátne 72-bitové sériové číslo, ktoré zlepšuje možnosti sledovania a autentifikácie.
-
-## Generátor Náhodných Čísel
-
-- Obsahuje interný generátor náhodných čísel (RNG) vysoké kvality pre bezpečné kryptografické operácie.
-
-## EEPROM
-
-- Ponúka 4.5 kb EEPROM pre uloženie kľúčov a dát, a 512-bit OTP (One Time Programmable) pamäť pre fixné informácie.
-
-## Viacnásobné Možnosti Vstupu/Výstupu
-
-- Podporuje viacnásobné komunikačné rozhrania vrátane UART-kompatibilného vysokorýchlostného jedno-drôtového rozhrania a 1 MHz I2C rozhrania.
-
-## Rozsah Napájacieho a Komunikačného Napätia
-
-- Pracuje v rozsahu napájacích napätí 2.0V do 5.5V a komunikačných napätí 1.8V do 5.5V, čo umožňuje flexibilitu v rôznych aplikačných prostrediach.
-
-## Energeticky Úsporný Režim
-
-- Ponúka extrémne nízky spánkový prúd (<150 nA), čo zvyšuje energetickú efektívnosť zariadenia.
-
-## Bezpečné Sťahovanie a Bootovanie
-
-- Zabezpečuje kontrolu ekosystému, bezpečnosť správ a ochranu proti klonovaniu, čím zvyšuje celkovú bezpečnosť zariadenia pri jeho spúšťaní a aktualizácii.
-
-## Dostupnosť v Rôznych Baleniach
-
-- Dostupné v rôznych formátoch balenia vrátane 8-vývodového SOIC, 8-vývodového TSSOP, 3-vývodového SOT23, 8-políčkového UDFN a 3-vývodového CONTACT, čo poskytuje flexibilitu pri návrhu hardvéru.
-
 Tento dokument je užitočný ako zdroj informácií pre vývojové tímy alebo ako technická dokumentácia pre zainteresované strany v projekte.
 
 | Funkcia                                     | Popis                                                                                                                                                  |
@@ -69,4 +21,70 @@ Tento dokument je užitočný ako zdroj informácií pre vývojové tímy alebo 
 | **Bezpečné sťahovanie a bootovanie**        | Zabezpečuje kontrolu ekosystému, bezpečnosť správ a ochranu proti klonovaniu pri spustení a aktualizácii zariadenia.                                   |
 | **Dostupnosť v rôznych baleniach**          | Dostupné v baleniach ako 8-vývodový SOIC, 8-vývodový TSSOP, 3-vývodový SOT23, 8-políčkový UDFN a 3-vývodový CONTACT, poskytujúci flexibilitu v dizajne. |
 
-Podrobné špecifikácie a technické údaje vychádzajú z datasheetu ATSHA204a [Datasheet ATSHA204a](https://ww1.microchip.com/downloads/en/DeviceDoc/ATSHA204A-Data-Sheet-40002025A.pdf).
+Podrobné špecifikácie a technické údaje vychádzajú z [Datasheet ATSHA204a](https://ww1.microchip.com/downloads/en/DeviceDoc/ATSHA204A-Data-Sheet-40002025A.pdf).
+
+## Prehľad
+
+Hlavný program `main.c` demonštruje rôzne kryptografické operácie umožnené čipom ATSHA204a, ako je bezpečné ukladanie kľúčov, generovanie náhodných čísel a kryptografické výpočty. Kód inicializuje hardvér dosky, konfiguruje komunikačné nastavenia a vykonáva sériovú komunikáciu s ATSHA204a.
+
+## Použité knižnice
+
+### Štandardné knižnice AVR
+
+- `<avr/io.h>`: Používané pre funkcie hardvérového vstupu/výstupu.
+- `<avr/interrupt.h>`: Používané pre správu hardvérových prerušení.
+- `<util/delay.h>`: Poskytuje funkcie oneskorenia.
+
+Tieto knižnice sú základné pre rozhranie s hardvérom na platforme AVR, spracovanie prerušení a zavedenie potrebných oneskorení pre časovanie a synchronizáciu s čipom ATSHA204a.
+
+### Štandardné knižnice C
+
+- `<stdio.h>`: Používané pre operácie vstupu a výstupu.
+- `<stdlib.h>`: Zahrnuje funkcie zahŕňajúce alokáciu pamäte, kontrolu procesov, konverzie a iné.
+- `<string.h>`: Poskytuje funkcie na spracovanie reťazcov.
+
+Tieto štandardné knižnice sú použité na správu dát reťazcov, pamäti a formátovaného vstupu/výstupu, ktoré sú nevyhnutné pre operácie zobrazené v demonštrácii, ako je zobrazovanie výstupov na termináli.
+
+### Vlastné knižnice pre ATSHA204a
+
+- `sha204_comm.h`: Zaoberá sa nižšie úrovňovými komunikačnými príkazmi s ATSHA204a.
+- `sha204_comm_marshaling.h`: Uľahčuje maršálovanie príkazov a odpovedí medzi hostiteľom a ATSHA204a.
+- `sha204_examples.h`: Obsahuje príklady použitia funkcií ATSHA204a.
+- `sha204_i2c.h`: Riadi špecifiká komunikácie I2C s ATSHA204a.
+- `sha204_return_codes.h`: Definuje návratové kódy pre operácie ATSHA204a.
+
+Tieto knižnice sú súčasťou softvérovej knižnice ATSHA204a poskytovanej výrobcom čipu. Abstrahujú zložitosť surových kryptografických operácií a komunikácie s čipom.
+
+### Knihovna UART
+
+- `uart/uart.h`: Riadi sériovú komunikáciu, ktorá je nevyhnutná na odosielanie a prijímanie údajov z čipu ATSHA204a a na účely ladenia.
+
+Táto vlastná knižnica je kľúčová pre nastavenie a operácie sériovej komunikácie, ktorá je hlavnou metódou rozhrania s ATSHA204a v tejto demonštrácii.
+
+## Kľúčové funkcie
+
+### `board_init()`
+
+Inicializuje hardvérové konfigurácie a nastavenia UART. Táto funkcia je nevyhnutná pre nastavenie potrebných hardvérových rozhraní a zabezpečenie pripravenosti mikrokontroléra na komunikáciu s ATSHA204a.
+
+### `main()`
+
+- Inicializuje dosku volaním `board_init()`.
+- Odosiela príkazy na vyčistenie obrazovky a nastavenie atribútov textu pre lepšiu čitateľnosť.
+- Prebúdza čip ATSHA204a a kontroluje jeho stav.
+- Demonštruje odosielanie príkazu a prijímanie odpovede.
+- Vykonáva rôzne kryptografické operácie, ako je čítanie sériového čísla, generovanie náhodného čísla, výpočet CRC a ďalšie.
+
+Hlavná funkcia orchesteruje tok operácií, demonštruje schopnosti čipu ATSHA204a štruktúrovaným spôsobom. Ukazuje, ako integrovať ATSHA204a do reálneho aplikačného scenára.
+
+## Kryptografické funkcie
+
+- **Generovanie náhodných čísel:** Funkcia `sha204m_random()` generuje kryptograficky bezpečné náhodné čísla, ktoré môžu byť použité pre rôzne bezpečnostné aplikácie.
+- **Čítanie sériového čísla:** Funkcia `sha204e_read_serial_number()` umožňuje čítanie jedinečného sériového čísla čipu, ktoré môže byť použité na autentifikáciu zariadenia.
+- **Výpočet CRC:** Funkcia `sha204c_calculate_crc()` vypočíta kontrolný súčet pre overenie integrity údajov.
+
+Tieto funkcie sú nevyhnutné pre zabezpečenie integrity a autenticity v komunikačných a kryptografických procesoch.
+
+## Záver
+
+Táto dokumentácia poskytuje vysokoúrovňový prehľad zdrojového súboru `main.c` pre demonštráciu ATSHA204a. Každá knižnica a funkcia je využívaná na predvedenie komplexného prístupu k používaniu kryptografických funkcií v zabudovaných systémoch.
