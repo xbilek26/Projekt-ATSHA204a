@@ -114,6 +114,12 @@ int main(void)
 
 ## Kontrola stavu prebudenia kryptografického obvodu
 
+- Po inicializácii komunikácie s ATSHA204 sa pošle príkaz na jeho prebudenie.
+- Návratový kód tohto príkazu sa uloží do premennej `wakeup_status`.
+- Ak je `wakeup_status` rôzny od `SHA204_SUCCESS`, znamená to, že prebudenie zlyhalo.
+- V takom prípade sa vypíše chybová hláška s konkrétnym návratovým kódom.
+- Ak je `wakeup_status` rovnaký ako `SHA204_SUCCESS`, znamená to, že prebudenie bolo úspešné.
+- V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
 ```c
 // Kontrola stavu prebudenia kryptografického obvodu
 if (wakeup_status != SHA204_SUCCESS)
@@ -126,12 +132,67 @@ else
 }
 ```
 
-- Po inicializácii komunikácie s ATSHA204 sa pošle príkaz na jeho prebudenie.
-- Návratový kód tohto príkazu sa uloží do premennej `wakeup_status`.
-- Ak je `wakeup_status` rôzny od `SHA204_SUCCESS`, znamená to, že prebudenie zlyhalo.
-- V takom prípade sa vypíše chybová hláška s konkrétnym návratovým kódom.
-- Ak je `wakeup_status` rovnaký ako `SHA204_SUCCESS`, znamená to, že prebudenie bolo úspešné.
-- V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
+### Odeslanie príkazu kryptografickému obvodu
+
+V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela kryptografickému obvodu ATSHA204. Príkaz je reprezentovaný polem bajtov.
+
+Funkcia `sha204p_send_command()` sa používa na odoslanie príkazu kryptografickému obvodu ATSHA204. Parametre funkcie sú veľkosť príkazu a samotný príkaz uložený v premennej `my_command`.
+
+Návratový kód tejto funkcie sa uloží do premennej `send_status`.
+
+Ak je `send_status` rôzny od `SHA204_SUCCESS`, znamená to, že odoslanie príkazu zlyhalo. V takom prípade sa vypíše chybová hláška s konkrétnym návratovým kódom.
+
+Ak je `send_status` rovnaký ako `SHA204_SUCCESS`, znamená to, že príkaz bol úspešne odoslaný kryptografickému obvodu ATSHA204. V takom prípade sa vypíše správa o úspešnom odoslaní.
+
+```c
+// Definícia príkazu pre komunikáciu s kryptografickým obvodom ATSHA204
+uint8_t my_command[] = { 0x03, 0x00, 0x00, 0x00 };
+
+// Odoslanie príkazu kryptografickému obvodu ATSHA204 a uloženie návratového kódu
+uint8_t send_status = sha204p_send_command(sizeof(my_command), my_command);
+
+// Kontrola návratového kódu odosielania príkazu
+if (send_status != SHA204_SUCCESS)
+{
+    // Ak odoslanie príkazu zlyhalo, vypíše sa chybová hláška s návratovým kódom
+    printf("Error: Failed to send command to SHA204 device! Return code: %d\n\r", send_status);
+}
+else
+{
+    // Ak odoslanie príkazu bolo úspešné, vypíše sa správa o úspechu
+    printf("Command sent successfully to SHA204 device!\n\r");
+}
+```
+
+### Čítanie sériového čísla
+
+V tejto časti kódu je vykonané čítanie sériového čísla z kryptografického obvodu ATSHA204.
+
+```c
+// Definícia premenných pre buffer a sériové číslo
+uint8_t tx_buffer[10];
+uint8_t sn[9];
+
+// Čítanie sériového čísla z kryptografického obvodu ATSHA204
+volatile uint8_t sn_read_status = sha204e_read_serial_number(tx_buffer, sn);
+
+// Kontrola úspešnosti čítania sériového čísla
+if (sn_read_status == SHA204_SUCCESS)
+{
+    // Ak bolo čítanie úspešné, vypíše sa sériové číslo
+    printf("Serial number read successfully: ");
+    for (int i = 0; i < 9; i++)
+    {
+        printf("%02X ", sn[i]);
+    }
+}
+else
+{
+    // Ak čítanie zlyhalo, vypíše sa chybová hláška s návratovým kódom
+    printf("Error reading serial number! Return code: %d", sn_read_status);
+}
+
+printf("\n\r");
 
 ### `board_init()`
 
