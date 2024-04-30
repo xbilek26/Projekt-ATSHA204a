@@ -61,6 +61,35 @@ Táto vlastná knižnica je kľúčová pre nastavenie a operácie sériovej kom
 
 ## Kľúčové funkcie
 
+# Inicializácia sériovej komunikácie
+
+## Úvod
+Táto časť kódu inicializuje sériovú komunikáciu na zvolenej rýchlosti a nastavuje stdout na sériový port.
+
+```c
+// Definícia štruktúry pre štandardný výstup
+FILE uart_str = FDEV_SETUP_STREAM(printCHAR, NULL, _FDEV_SETUP_RW);
+
+// Deklarácia funkcie pre inicializáciu dosky
+void board_init();
+
+// Implementácia funkcie pre inicializáciu dosky
+void board_init()
+{
+    // Zakázanie všetkých prerušení
+    cli();
+    // Inicializácia sériovej komunikácie s rýchlosťou 38400 bodov za sekundu
+    UART_init(38400);
+    // Povolenie prerušenia pri príjme dát
+    UCSR1B |= (1 << RXCIE1);
+    // Nastavenie stdout na sériový port
+    stdout = &uart_str;
+    // Povolenie globálnych prerušení
+    sei();
+}
+```
+
+
 ### `board_init()`
 
 Inicializuje hardvérové konfigurácie a nastavenia UART. Táto funkcia je nevyhnutná pre nastavenie potrebných hardvérových rozhraní a zabezpečenie pripravenosti mikrokontroléra na komunikáciu s ATSHA204a.
