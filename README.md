@@ -63,7 +63,6 @@ Táto vlastná knižnica je kľúčová pre nastavenie a operácie sériovej kom
 
 # Inicializácia sériovej komunikácie
 
-## Úvod
 Táto časť kódu inicializuje sériovú komunikáciu na zvolenej rýchlosti a nastavuje stdout na sériový port.
 
 ```c
@@ -88,7 +87,30 @@ void board_init()
     sei();
 }
 ```
+# `main()`
 
+- Inicializuje dosku volaním `board_init()`.
+- Odosiela príkazy na vyčistenie obrazovky a nastavenie atribútov textu pre lepšiu čitateľnosť.
+  
+```c
+int main(void)
+{
+    // Inicializácia dosky
+    board_init();
+
+    // Odoslanie úvodných príkazov pre nastavenie sériovej komunikácie
+    UART_SendChar(27);                // escape
+    UART_SendString("[2J");           // clear and home
+    UART_SendChar(27);                // escape
+    UART_SendString("[0;32;40m");     // barva pozadi a textu
+
+    // Inicializácia kryptografického obvodu ATSHA204
+    sha204p_init();
+
+    // Deklarácia a inicializácia premenných pre odpoveď z kryptografického obvodu
+    uint8_t response[SHA204_RSP_SIZE_MAX];
+    uint8_t wakeup_status = sha204c_wakeup(response);
+```
 
 ### `board_init()`
 
