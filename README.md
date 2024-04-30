@@ -124,6 +124,14 @@ else
 {
     printf("SHA204 device woken up successfully!\n\r");
 }
+```
+
+- Po inicializácii komunikácie s ATSHA204 sa pošle príkaz na jeho prebudenie.
+- Návratový kód tohto príkazu sa uloží do premennej `wakeup_status`.
+- Ak je `wakeup_status` rôzny od `SHA204_SUCCESS`, znamená to, že prebudenie zlyhalo.
+- V takom prípade sa vypíše chybová hláška s konkrétnym návratovým kódom.
+- Ak je `wakeup_status` rovnaký ako `SHA204_SUCCESS`, znamená to, že prebudenie bolo úspešné.
+- V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
 
 ### `board_init()`
 
