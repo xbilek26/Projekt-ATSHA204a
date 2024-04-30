@@ -57,9 +57,9 @@ Tieto knižnice sú súčasťou softvérovej knižnice ATSHA204a poskytovanej v�
 
 - `uart/uart.h`: Riadi sériovú komunikáciu, ktorá je nevyhnutná na odosielanie a prijímanie údajov z čipu ATSHA204a a na účely ladenia.
 
-## Kľúčové funkcie
+# Kľúčové funkcie
 
-# Inicializácia sériovej komunikácie
+## Inicializácia sériovej komunikácie
 
 Táto časť kódu inicializuje sériovú komunikáciu na zvolenej rýchlosti a nastavuje stdout na sériový port.
 
@@ -85,8 +85,7 @@ void board_init()
     sei();
 }
 ```
-# main()
-
+## main()
 - Inicializuje dosku volaním `board_init()`.
   
 ```c
@@ -110,27 +109,14 @@ int main(void)
 ```
 
 ## Kontrola stavu prebudenia kryptografického obvodu
-
 - Po inicializácii komunikácie s ATSHA204 sa pošle príkaz na jeho prebudenie.
 - Návratový kód tohto príkazu sa uloží do premennej `wakeup_status`.
 - Ak je `wakeup_status` rôzny od `SHA204_SUCCESS`, znamená to, že prebudenie zlyhalo.
 - V takom prípade sa vypíše chybová hláška s konkrétnym návratovým kódom.
 - Ak je `wakeup_status` rovnaký ako `SHA204_SUCCESS`, znamená to, že prebudenie bolo úspešné.
 - V takom prípade sa vypíše správa o úspešnom prebudení zariadenia.
-```c
-// Kontrola stavu prebudenia kryptografického obvodu
-if (wakeup_status != SHA204_SUCCESS)
-{
-    printf("Error: SHA204 wakeup failed! Return code: %d\n\r", wakeup_status);
-}
-else
-{
-    printf("SHA204 device woken up successfully!\n\r");
-}
-```
 
-### Odeslanie príkazu kryptografickému obvodu
-
+## Odeslanie príkazu kryptografickému obvodu
 V tejto časti kódu je definovaný príkaz `my_command`, ktorý sa odosiela kryptografickému obvodu ATSHA204. Príkaz je reprezentovaný polem bajtov.
 
 Funkcia `sha204p_send_command()` sa používa na odoslanie príkazu kryptografickému obvodu ATSHA204. Parametre funkcie sú veľkosť príkazu a samotný príkaz uložený v premennej `my_command`.
