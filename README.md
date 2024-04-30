@@ -1,6 +1,19 @@
 # Projekt ATSHA204a
 
-Náš projekt využíva zabezpečený kryptografický prvok ATSHA204a, ktorý poskytuje pokročilé funkcie pre bezpečnú autentifikáciu a šifrovanie v zabudovaných systémoch. Nižšie sú podrobne opísané kľúčové funkcie, ktoré sú zahrnuté v hlavnom súbore.
+# Úvod
+
+Cieľom tohto projektu je implementovať ovládač/knižnicu pre kryptografický obvod ATSHA204a. Táto knižnica poskytne rozhranie pre základné operácie s obvodom, ako je ukladanie kľúčov pre AES128, identifikácia zariadenia, využitie jedinečného identifikátora (ID), hashovanie a generovanie náhodných čísel.
+
+## Funkcie knižnice budú zahŕňať:
+
+- **Ukladanie kľúčov pre AES128**: Implementácia funkcií na ukladanie a čítanie kľúčov pre šifrovanie a dešifrovanie pomocou algoritmu AES128.
+- **Identifikácia zariadenia**: Rozšírené funkcie na identifikáciu zariadenia založené nielen na jednoduchom identifikátore, ale aj na inteligentnej analýze ďalších charakteristík zariadenia.
+- **Jedinečný identifikátor (ID)**: Využitie jedinečného identifikátora zariadenia na rôzne účely, ako je napríklad priradenie sieťových adries alebo autentifikácia.
+- **Hashovanie**: Implementácia funkcií na vytváranie hashov z dát získaných zo zariadenia, čo môže byť užitočné pri overovaní autenticity dát.
+- **Generovanie náhodných čísel**: Funkcie na generovanie náhodných čísel pomocou kryptografického obvodu ATSHA204a, ktoré môžu byť využité v rôznych kryptografických operáciách.
+
+Tieto funkcie umožnia integráciu kryptografického obvodu ATSHA204a do rôznych aplikácií a systémov, kde je potrebné zabezpečiť dôvernosť, autenticitu a integritu dát.
+
 
 Podrobné špecifikácie a technické údaje vychádzajú z [Datasheet ATSHA204a](https://ww1.microchip.com/downloads/en/DeviceDoc/ATSHA204A-Data-Sheet-40002025A.pdf).
 
